@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>swiper-js</title>
+    <link rel="stylesheet" href='https://www.rtacabinetsupply.com/media/wysiwyg/css/swiper/swiper-bundle.min.css'>
+    <link rel="stylesheet" href='https://www.rtacabinetsupply.com/media/wysiwyg/css/photoswiper/photoswipe.css'>
+    <link rel="stylesheet"
+        href='https://www.rtacabinetsupply.com/media/wysiwyg/css/photoswiper/default-skin/default-skin.css'>
+
+    <style>
+        .gallery-thumbnails .item a {
+            display: block;
+            line-height: 0;
+        }
+
+        .gallery-thumbnails ul {
+            display: flex;
+            width: calc(100% + 10px);
+            margin: 10px -5px 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .gallery-thumbnails .item {
+            width: 109px;
+            height: 61px;
+            margin: 0 5px;
+        }
+
+        .gallery-thumbnails .item.mobile-only {
+            display: none;
+        }
+
+        .gallery-thumbnails .item .thumbnail-picture {
+            width: 100%;
+        }
+
+        .gallery-thumbnails .item .counter {
+            position: absolute;
+            top: calc(50% - 1px);
+            left: calc(50% - 3px);
+            display: block;
+            font-size: 24px;
+            color: #fff;
+            font-weight: 700;
+            line-height: 24px;
+            transform: translate(-50%, -50%);
+        }
+
+        .gallery-thumbnails .item.last-item a,
+        .gallery-thumbnails .item.around-view a {
+            position: relative;
+        }
+
+        .gallery-thumbnails .item.last-item a::before,
+        .gallery-thumbnails .item.around-view a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: block;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, .4);
+        }
+
+        .gallery-thumbnails .item.around-view:not(.last-item) a::before {
+            background-image: url('https://www.rtacabinetsupply.com/media/wysiwyg/css/icon-360.svg');
+            background-repeat: no-repeat;
+            background-position: 50% 45%;
+            background-size: 50%;
+        }
+
+        .mobile-gallery .swiper-nav .swiper-nav-prev,
+        .mobile-gallery .swiper-nav .swiper-nav-next {
+            width: 9.375vw;
+            height: 100%;
+            background-size: 44%;
+        }
+
+        /* .pswp__ui .pswp-custom-button {
+            width: 10vw;
+            height: 22vw;
+        } */
+
+        .mobile-gallery .swiper-nav .swiper-nav-prev.swiper-button-disabled,
+        .mobile-gallery .swiper-nav .swiper-nav-next.swiper-button-disabled {
+            opacity: .4;
+        }
+
+        .mobile-gallery .swiper-nav .swiper-nav-prev {
+            background-position: 45% 50%;
+        }
+
+        .mobile-gallery .swiper-nav .swiper-nav-next {
+            background-position: 55% 50%;
+        }
+
+        .pswp__ui .pswp-custom-button,
+        .pswp__ui .pswp-custom-button:hover,
+        .pswp__ui .pswp-custom-button:active,
+        .pswp__ui .pswp-custom-button:focus {
+            padding: 0;
+            background-color: transparent;
+            border: none;
+            outline: none;
+            box-shadow: none;
+        }
+
+        .pswp__ui .pswp-custom-button,
+        .swiper-nav .swiper-nav-prev,
+        .swiper-nav .swiper-nav-next {
+            position: absolute;
+            top: 50%;
+            display: block;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: contain;
+            transform: translate(0, -50%);
+            transition: ease .2s filter;
+            z-index: 150;
+            cursor: pointer;
+        }
+
+        .pswp__ui .pswp-custom-button--arrow--left,
+        .swiper-nav .swiper-nav-prev {
+            left: 0;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 21 35'%3E%3Cpath stroke='%23333' stroke-miterlimit='10' stroke-width='3' d='M19 33.4 3 17.3 19 1.2'/%3E%3C/svg%3E");
+        }
+
+        .pswp__ui .pswp-custom-button--arrow--right,
+        .swiper-nav .swiper-nav-next {
+            right: 0;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 21 36'%3E%3Cpath stroke='%23333' stroke-miterlimit='10' stroke-width='3' d='m2 2 16 16.1L2 34.2'/%3E%3C/svg%3E");
+        }
+
+        .pswp--open {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .pswp .mobile-popup-thumbs {
+            width: 100%;
+            margin: auto auto 35px;
+        }
+
+        .pswp .mobile-popup-thumbs .item a::before {
+            content: none;
+        }
+
+        .pswp .mobile-popup-thumbs .item.swiper-slide-active a {
+            border: 2px solid #ac3b39;
+        }
+
+        .pswp .pswp__ui .pswp-custom-button {
+            background-size: 32%;
+        }
+
+        .pswp .gallery-thumbnails .item a {
+            width: 20vw;
+            height: 20vw;
+        }
+
+        .pswp__ui .pswp-custom-button {
+            background-size: 42%;
+        }
+    </style>
+
+    <script src="https://unpkg.com/swiper@7/swiper-bundle.min.js"></script>
+    <script src="https://www.rtacabinetsupply.com/media/wysiwyg/css/photoswiper/photoswipe.min.js"></script>
+    <script
+        src="https://www.rtacabinetsupply.com/media/wysiwyg/css/photoswiper/photoswipe-ui-default-2.min.js"></script>
+</head>
+
+<body>
+
+    <div class="mobile-gallery swiper">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide">
+                <a href='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/full/image-1.jpg'
+                    data-size="1088x612" class="gallery-link">
+                    <picture>
+                        <source
+                            srcset='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/full/image-1.webp'
+                            type="image/webp">
+                        <source
+                            srcset='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/full/image-1.jpg'
+                            type="image/jpeg">
+                        <img src='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/full/image-1.jpg'
+                            class="lazyOwl" alt="Madison White Shaker kitchen full view with an island." width="1088"
+                            height="612" loading="lazy" style="width: 100%; height: 100%">
+                    </picture>
+                </a>
+            </div>
+            <div class="swiper-slide">
+                <a href='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/full/image-2.jpg'
+                    data-size="1088x612"
+                    data-med='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/full/image-2.jpg'
+                    data-med-size="1088x612" class="gallery-link">
+                    <picture>
+                        <source
+                            srcset='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/full/image-2.webp'
+                            type="image/webp">
+                        <source
+                            srcset='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/full/image-2.jpg'
+                            type="image/jpeg">
+                        <img src='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/full/image-2.jpg'
+                            class="lazyOwl" alt="Madison White Shaker cabinet front." width="1088" height="612"
+                            loading="lazy">
+                    </picture>
+                </a>
+            </div>
+            <div class="swiper-slide">
+                <a href='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/full/image-3.jpg'
+                    data-size="1088x612"
+                    data-med='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/full/image-3.jpg'
+                    data-med-size="1088x612" class="gallery-link">
+                    <picture>
+                        <source
+                            srcset='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/full/image-3.webp'
+                            type="image/webp">
+                        <source
+                            srcset='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/full/image-3.jpg'
+                            type="image/jpeg">
+                        <img src='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/full/image-3.jpg'
+                            class="lazyOwl" alt="Madison White Shaker kitchen full view with an island." width="1088"
+                            height="612" loading="lazy">
+                    </picture>
+                </a>
+            </div>
+            <div class="swiper-slide">
+                <a href='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/full/image-4.jpg'
+                    data-size="1088x612"
+                    data-med='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/full/image-4.jpg'
+                    data-med-size="1088x612" class="gallery-link">
+                    <picture>
+                        <source
+                            srcset='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/full/image-4.webp'
+                            type="image/webp">
+                        <source
+                            srcset='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/full/image-4.jpg'
+                            type="image/jpeg">
+                        <img src='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/full/image-4.jpg'
+                            class="lazyOwl" alt="Madison White Shaker kitchen full view with an island." width="1088"
+                            height="612" loading="lazy">
+                    </picture>
+                </a>
+            </div>
+            <div class="swiper-slide">
+                <a href='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/full/image-5.jpg'
+                    data-size="1088x612"
+                    data-med='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/full/image-5.jpg'
+                    data-med-size="1088x612" class="gallery-link">
+                    <picture class="navigation-picture">
+                        <source
+                            srcset='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/full/image-5.webp'
+                            type="image/webp">
+                        <source
+                            srcset='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/full/image-5.jpg'
+                            type="image/jpeg">
+                        <img src='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/full/image-5.jpg'
+                            class="lazyOwl" alt="Madison White Shaker kitchen full view with an island." width="1088"
+                            height="612" loading="lazy">
+                    </picture>
+                </a>
+            </div>
+            <div class="swiper-slide">
+                <a href='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/full/image-6.jpg'
+                    data-size="1088x612"
+                    data-med='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/full/image-6.jpg'
+                    data-med-size="1088x612" class="gallery-link">
+                    <picture class="navigation-picture">
+                        <source
+                            srcset='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/full/image-6.webp'
+                            type="image/webp">
+                        <source
+                            srcset='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/full/image-6.jpg'
+                            type="image/jpeg">
+                        <img src='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/full/image-6.jpg'
+                            class="lazyOwl" alt="Madison White Shaker kitchen full view with an island." width="1088"
+                            height="612" loading="lazy">
+                    </picture>
+                </a>
+            </div>
+            <div class="swiper-slide">
+                <a href='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/full/image-7.jpg'
+                    data-size="1088x612"
+                    data-med='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/full/image-7.jpg'
+                    data-med-size="1088x612" class="gallery-link">
+                    <picture>
+                        <source
+                            srcset='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/full/image-7.webp'
+                            type="image/webp">
+                        <source
+                            srcset='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/full/image-7.jpg'
+                            type="image/jpeg">
+                        <img src='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/full/image-7.jpg'
+                            class="lazyOwl" alt="Madison White Shaker kitchen full view with an island." width="1088"
+                            height="612" loading="lazy">
+                    </picture>
+                </a>
+            </div>
+        </div>
+        <div class="swiper-nav">
+            <div class="swiper-nav-prev"></div>
+            <div class="swiper-nav-next"></div>
+        </div>
+    </div>
+
+    <div class="gallery-thumbnails swiper">
+        <ul class="swiper-wrapper">
+            <li class="swiper-slide item mobile-only">
+                <a href="javascript:void(0);">
+                    <picture class="thumbnail-picture">
+                        <source
+                            srcset='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/thumbnails/image-1.webp 1x,
+                                                https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/thumbnails/image-1-2x.webp 2x'
+                            type="image/webp">
+                        <source
+                            srcset='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/thumbnails/image-1.jpg'
+                            type="image/jpeg">
+                        <img src='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/thumbnails/image-1.jpg'
+                            class="lazyOwl" alt="Madison White Shaker cabinet front." width="109" height="62">
+                    </picture>
+                </a>
+            </li>
+            <li class="swiper-slide item">
+                <a href="javascript:void(0);">
+                    <picture class="thumbnail-picture">
+                        <source
+                            srcset='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/thumbnails/image-2.webp 1x,
+                                                https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/thumbnails/image-2-2x.webp 2x'
+                            type="image/webp">
+                        <source
+                            srcset='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/thumbnails/image-2.jpg'
+                            type="image/jpeg">
+                        <img src='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/thumbnails/image-2.jpg'
+                            class="lazyOwl" alt="Madison White Shaker cabinet front." width="109" height="62">
+                    </picture>
+                </a>
+            </li>
+            <li class="swiper-slide item">
+                <a href="javascript:void(0);">
+                    <picture class="thumbnail-picture">
+                        <source
+                            srcset='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/thumbnails/image-3.webp 1x,
+                                                https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/thumbnails/image-3-2x.webp 2x'
+                            type="image/webp">
+                        <source
+                            srcset='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/thumbnails/image-3.jpg'
+                            type="image/jpeg">
+                        <img src='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/thumbnails/image-3.jpg'
+                            class="lazyOwl" alt="Madison White Shaker complete kitchen with an island angle view."
+                            width="109" height="62">
+                    </picture>
+                </a>
+            </li>
+            <li class="swiper-slide item">
+                <a href="javascript:void(0);">
+                    <picture class="thumbnail-picture">
+                        <source
+                            srcset='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/thumbnails/image-4.webp 1x,
+                                                https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/thumbnails/image-4-2x.webp 2x'
+                            type="image/webp">
+                        <source
+                            srcset='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/thumbnails/image-4.jpg'
+                            type="image/jpeg">
+                        <img src='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/thumbnails/image-4.jpg'
+                            class="lazyOwl" alt="Madison White Shaker kitchen full view with base cabinets." width="109"
+                            height="62">
+                    </picture>
+                </a>
+            </li>
+            <li class="swiper-slide item around-view">
+                <a href="javascript:void(0);">
+                    <picture class="thumbnail-picture">
+                        <source
+                            srcset='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/thumbnails/image-5.webp 1x,
+                                                https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/thumbnails/image-5-2x.webp 2x'
+                            type="image/webp">
+                        <source
+                            srcset='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/thumbnails/image-5.jpg'
+                            type="image/jpeg">
+                        <img src='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/thumbnails/image-5.jpg'
+                            class="lazyOwl" alt="Madison White Shaker base cabinet angle view." width="109" height="62">
+                    </picture>
+                </a>
+            </li>
+            <li class="swiper-slide item around-view">
+                <a href="javascript:void(0);">
+                    <picture class="thumbnail-picture">
+                        <source
+                            srcset='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/thumbnails/image-6.webp 1x,
+                                                https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/thumbnails/image-6-2x.webp 2x'
+                            type="image/webp">
+                        <source
+                            srcset='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/thumbnails/image-6.jpg'
+                            type="image/jpeg">
+                        <img src='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/thumbnails/image-6.jpg'
+                            class="lazyOwl" alt="Madison White Shaker wall cabinet angle view." width="109" height="62">
+                    </picture>
+                </a>
+            </li>
+            <li class="swiper-slide item">
+                <a href="javascript:void(0);">
+                    <picture class="thumbnail-picture">
+                        <source
+                            srcset='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/thumbnails/image-7.webp 1x,
+                                                https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/thumbnails/image-7-2x.webp 2x'
+                            type="image/webp">
+                        <source
+                            srcset='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/thumbnails/image-7.jpg'
+                            type="image/jpeg">
+                        <img src='https://www.rtacabinetsupply.com/media/wysiwyg/new-gallery-pictures/thumbnails/image-7.jpg'
+                            class="lazyOwl" alt="Madison White Shaker kitchen front view." width="109" height="62">
+                    </picture>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="pswp__bg"></div>
+        <div class="pswp__scroll-wrap">
+            <div class="pswp__container">
+                <div class="pswp__item"></div>
+                <div class="pswp__item"></div>
+                <div class="pswp__item"></div>
+            </div>
+            <div class="pswp__ui pswp__ui--hidden">
+                <div class="pswp__top-bar">
+                    <div class="pswp__counter"></div>
+                    <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                    <button class="pswp__button pswp__button--share" title="Share"></button>
+                    <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                    <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                    <div class="pswp__preloader">
+                        <div class="pswp__preloader__icn">
+                            <div class="pswp__preloader__cut">
+                                <div class="pswp__preloader__donut"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                    <div class="pswp__share-tooltip"></div>
+                </div>
+                <button class="pswp-custom-button pswp-custom-button--arrow--left" ontouchstart=""
+                    title="Previous (arrow left)"></button>
+                <button class="pswp-custom-button pswp-custom-button--arrow--right" ontouchstart=""
+                    title="Next (arrow right)"></button>
+                <div class="pswp__caption">
+                    <div class="pswp__caption__center"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const mobileThumbnails = new Swiper('.gallery-thumbnails.swiper', {
+            slidesPerView: 'auto',
+            loop: false,
+            centeredSlides: true,
+            centeredSlidesBounds: true,
+            centerInsufficientSlides: true
+        });
+        const mobileSlider = new Swiper('.mobile-gallery.swiper', {
+            loop: false,
+            speed: 500,
+            spaceBetween: 10,
+            navigation: {
+                nextEl: '.mobile-gallery .swiper-nav .swiper-nav-next',
+                prevEl: '.mobile-gallery .swiper-nav .swiper-nav-prev',
+            },
+            thumbs: {
+                autoScrollOffset: 1,
+                swiper: mobileThumbnails,
+            },
+        });
+        var initPhotoSwipeFromDOM = function (gallerySelector) {
+            var parseThumbnailElements = function (el) {
+                var thumbElements = el.childNodes,
+                    numNodes = thumbElements.length,
+                    items = [],
+                    el,
+                    childElements,
+                    thumbnailEl,
+                    size,
+                    item;
+                for (var i = 0; i < numNodes; i++) {
+                    el = thumbElements[i];
+                    if (el.nodeType !== 1) {
+                        continue;
+                    }
+                    el = el.getElementsByTagName('a')[0];
+                    childElements = el.children;
+                    size = el.getAttribute('data-size').split('x');
+                    item = {
+                        src: el.getAttribute('href'),
+                        w: parseInt(size[0], 10),
+                        h: parseInt(size[1], 10),
+                        author: el.getAttribute('data-author')
+                    };
+                    item.el = el;
+                    if (childElements.length > 0) {
+                        item.msrc = childElements[0].getAttribute('src');
+                        if (childElements.length > 1) {
+                            item.title = childElements[1].innerHTML;
+                        }
+                    }
+                    item.o = {
+                        src: item.src,
+                        w: item.w,
+                        h: item.h
+                    };
+                    items.push(item);
+                }
+                return items;
+            };
+            var closest = function closest(el, fn) {
+                return el && (fn(el) ? el : closest(el.parentNode, fn));
+            };
+            var onThumbnailsClick = function (e) {
+                e = e || window.event;
+                e.preventDefault ? e.preventDefault() : e.returnValue = false;
+                var eTarget = e.target || e.srcElement;
+                var clickedListItem = closest(eTarget, function (el) {
+                    return el.tagName === 'A';
+                });
+                if (!clickedListItem) {
+                    return;
+                }
+                var clickedGallery = clickedListItem.parentNode.closest('.swiper-wrapper');
+
+                var childNodes = clickedListItem.parentNode.parentNode.childNodes,
+                    numChildNodes = childNodes.length,
+                    nodeIndex = 0,
+                    index;
+                for (var i = 0; i < numChildNodes; i++) {
+                    if (childNodes[i].nodeType !== 1) {
+                        continue;
+                    }
+                    let childElement = childNodes[i].getElementsByTagName('a')[0];
+                    if (childElement === clickedListItem) {
+                        index = nodeIndex;
+                        break;
+                    }
+                    nodeIndex++;
+                }
+                if (index >= 0) {
+                    openPhotoSwipe(index, clickedGallery);
+                }
+                return false;
+            };
+            var openPhotoSwipe = function (index, galleryElement) {
+                var pswpElement = document.querySelectorAll('.pswp')[0],
+                    gallery,
+                    options,
+                    items;
+                items = parseThumbnailElements(galleryElement);
+
+                options = {
+                    galleryUID: galleryElement.getAttribute('data-pswp-uid'),
+                    getThumbBoundsFn: function (index) {
+                        var thumbnail = items[index].el.children[0],
+                            pageYScroll = window.pageYOffset || document.documentElement.scrollTop,
+                            rect = thumbnail.getBoundingClientRect();
+                        return { x: rect.left, y: rect.top + pageYScroll, w: rect.width };
+                    }
+                };
+                options.mainClass = 'pswp--minimal--dark';
+                options.barsSize = { top: 0, bottom: 0 };
+                options.captionEl = false;
+                options.fullscreenEl = false;
+                options.shareEl = false;
+                options.history = false;
+                options.bgOpacity = 0.98;
+                options.tapToToggleControls = false;
+                options.showAnimationDuration = 0;
+                options.hideAnimationDuration = 0;
+                options.index = parseInt(index, 10);
+
+                gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);
+                gallery.listen('gettingData', function (index, item) {
+                    item.src = item.o.src;
+                    item.w = item.o.w;
+                    item.h = item.o.h;
+                });
+
+                gallery.init();
+
+                gallery.listen('beforeChange', function () {
+                    mobileSlider.slideTo(gallery.getCurrentIndex(), 0, false);
+                });
+
+                function goPrev() {
+                    gallery.prev();
+                }
+                function goNext() {
+                    gallery.next();
+                }
+
+                const goPrevControl = document.querySelector('.pswp-custom-button--arrow--left');
+                const goNextControl = document.querySelector('.pswp-custom-button--arrow--right');
+                goPrevControl.onclick = goPrev;
+                goNextControl.onclick = goNext;
+            };
+
+            // select all gallery elements
+            var galleryElements = document.querySelectorAll(gallerySelector);
+            for (var i = 0, l = galleryElements.length; i < l; i++) {
+                galleryElements[i].setAttribute('data-pswp-uid', i + 1);
+                galleryElements[i].onclick = onThumbnailsClick;
+            }
+
+        };
+        initPhotoSwipeFromDOM('.mobile-gallery');
+    </script>
+</body>
+
+</html>

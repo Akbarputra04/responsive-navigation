@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive navigation</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.0/font/bootstrap-icons.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .page-content {
+            background-color: grey;
+            height: 100vh;
+        }
+
+        .page-content .mobile-nav {
+            background-color: rgb(46, 46, 46);
+            border-start-start-radius: 12px;
+            border-start-end-radius: 12px;
+            padding-inline: 1rem;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 65px;
+            width: 85%;
+            margin-left: auto;
+            margin-right: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: .5rem;
+            box-sizing: border-box;
+            transition: ease-in-out .2s;
+        }
+
+        .page-content .mobile-nav.show {
+            height: 85%;
+            padding-block: 1.5rem;
+            transition: ease-in-out .2s;
+        }
+
+        .page-content .mobile-nav .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            position: relative;
+            overflow: auto;
+            box-sizing: border-box;
+        }
+
+        .page-content .mobile-nav.show .nav-links {
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+            padding-block: 3.5rem;
+        }
+
+        .page-content .mobile-nav .nav-links .link-item {
+            background-color: transparent;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+            padding: 7px;
+            color: white;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        .page-content .mobile-nav.show .nav-links .link-item {
+            width: 100%;
+            padding: 1.5rem;
+            border-radius: 14px;
+            justify-content: space-between;
+            gap: 1.5rem;
+        }
+
+        .page-content .mobile-nav .nav-links .link-item .text,
+        .page-content .mobile-nav .nav-links .link-item .icon,
+        .page-content .mobile-nav:not(.show) .scroll-up,
+        .page-content .mobile-nav:not(.show) .scroll-down {
+            display: none;
+        }
+        
+        .page-content .mobile-nav.show .nav-links .link-item .text {
+            display: block;
+            flex: 1;
+        }
+        
+        .page-content .mobile-nav .nav-links .link-item .num,
+        .page-content .mobile-nav.show .nav-links .link-item .num,
+        .page-content .mobile-nav.show .nav-links .link-item .icon {
+            display: block;
+        }
+        
+        .page-content .mobile-nav .nav-links .link-item:hover,
+        .page-content .mobile-nav .nav-links .link-item:focus,
+        .page-content .mobile-nav .nav-links .link-item.active {
+            background-color: black;
+        }
+        
+        .page-content .mobile-nav .nav-toggle,
+        .page-content .mobile-nav .scroll-up,
+        .page-content .mobile-nav .scroll-down {
+            border: none;
+            width: 42px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        .page-content .mobile-nav .nav-toggle {
+            background-color: black;
+            height: 42px;
+        }
+
+        .page-content .mobile-nav .scroll-up,
+        .page-content .mobile-nav .scroll-down {
+            background-color: grey;
+            height: 52px;
+        }
+
+        .page-content .mobile-nav.show .nav-toggle {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+        }
+
+        .page-content .mobile-nav.show .scroll-up {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+        }
+
+        .page-content .mobile-nav.show .scroll-down {
+            position: absolute;
+            bottom: 1rem;
+            left: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page-content">
+        <div class="mobile-nav" data-expanded="false">
+            <div class="nav-links">
+                <a class="link-item">
+                    <span class="num">01</span>
+                    <span class="text">Lorem, ipsum dolor.</span>
+                    <div class="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+                        </svg>
+                    </div>
+                </a>
+                <a class="link-item">
+                    <span class="num">02</span>
+                    <span class="text">Lorem, ipsum dolor.</span>
+                    <div class="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+                        </svg>
+                    </div>
+                </a>
+                <a class="link-item">
+                    <span class="num">03</span>
+                    <span class="text">Lorem, ipsum dolor.</span>
+                    <div class="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+                        </svg>
+                    </div>
+                </a>
+                <a class="link-item">
+                    <span class="num">04</span>
+                    <span class="text">Lorem, ipsum dolor.</span>
+                    <div class="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+                        </svg>
+                    </div>
+                </a>
+                <a class="link-item">
+                    <span class="num">05</span>
+                    <span class="text">Lorem, ipsum dolor.</span>
+                    <div class="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-chevron-down" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+                        </svg>
+                    </div>
+                </a>
+            </div>
+            <button class="nav-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-chevron-up" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+                </svg>
+            </button>
+            <button class="scroll-down">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-arrow-down" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/>
+                  </svg>
+            </button>
+            <button class="scroll-up">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-arrow-up" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"/>
+                  </svg>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const mobileNav = document.querySelector('.mobile-nav')
+        const navToggler = document.querySelector('.nav-toggle')
+        
+        navToggler.addEventListener('click', () => {
+            mobileNav.classList.toggle('show')
+            
+            if (mobileNav.classList.contains('show')) {
+                navToggler.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-chevron-down" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/></svg>'
+            } else {
+                navToggler.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-chevron-up" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/></svg>'
+            }
+        })
+
+
+        const linkItem = document.querySelectorAll('.link-item')
+
+        for (let i = 0; i < linkItem.length; i++) {
+            const e = linkItem[i];
+
+            e.addEventListener('click', () => {
+                for (let j = 0; j < linkItem.length; j++) {
+                    const l = linkItem[j];
+                    
+                    l.classList.remove('active')
+                }
+
+                e.classList.add('active')
+            })
+        }
+    </script>
+    
+</body>
+</html>
